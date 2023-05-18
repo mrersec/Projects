@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+import requests
+import time
+import sys
+import os
+
+while True:
+    def figlet():
+        os.system("apt-get install figlet")
+        os.system("figlet XSSFINDER")
+    figlet()
+    break
+    
+header ={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64; rv40.0) Gecko/20100101 Firefox/40.1'}
+postorget = input("POST ise 'p' GET ise 'g' yazınız:",)
+if postorget == "g":
+    try:
+        siteparam = input("Test etmek istediğiniz siteyi parametresi ile beraber yazınız:",)
+        response = requests.post(siteparam, headers=header)
+        time.sleep(1)
+        print("Hedef Site Kontrol Ediliyor!!")
+        time.sleep(1)
+        print(str(response)+"Döndeü ve hedef site doğrulandı")
+    except:
+        print("script çalışmadı")
+        time.sleep(2)
+        print("Site script denemesi başarısız Lütfen http:// veya https:// ile deneyin")
+        sys.exit(0)
+    print()
+    try:
+        scriptwordlist = input("scriptlerin olduğu wordlist dosya yolunu giriniiz:",)
+        file = open(scriptwordlist, "r")
+    except FileNotFoundError:
+        print("Dosya yolu"+" "+scriptwordlist+" "+"bulunamadı.Lütfen tekrar deneyiniz!")
+        sys.exit(0)
+    print("Test yapılıyor... \n")
+    time.sleep(2)
+    f = open(scriptwordlist, "r")
+    i = 1
+    for line in f:
+        print(str(i)+"."+"Payload deneniyor =>"+" "+str(line))
+        if line in requests.get(siteparam + line, headers=header).text:
+            print("XSS'in Bulunduğu URL aşağıdadır : \n")
+            print(requests.get(siteparam +line, headers=header).url)
+            sys.exit(0)
+        else:
+            print("Başarısız")
+            i += 1
+else:
+    print("Hata")
