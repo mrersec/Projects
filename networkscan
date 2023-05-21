@@ -1,0 +1,168 @@
+import socket
+import sys
+
+bannerlist = []
+
+while True:
+    print("""
+            1.-V parametresi ile versiyon bilgilerini getir.
+            2.-C parametresi ile Kritik zafiyet taraması yap.
+            3.-O parametresi ile İşletim Sistemi Tespiti Yap.
+            4.-T parametresi ile Açık Portları TCP taraması yap.
+            5.-Z parametresi ile top-1000 portu hızlı tarama yap.
+            6.-A parametresi ile tüm portları hızlı tarama yap.
+            """)
+    break
+
+islemno = input("bir parametre seciniz:",)
+
+if islemno == "-V":
+    firstport = input("Başlangıç portunu giriniz:", )
+    lastport = input("Bitiş portunu Giriniz:", )
+    target = input("İp Giriniz:", )
+    print("Saldırı yapılan ip:", target)
+    print("-" * 50)
+    for port in range(int(firstport), int(lastport)):
+        try:
+            s = socket.socket()
+            socket.setdefaulttimeout(1)
+            s.connect((target, port))
+            banner = s.recv(1024)
+            bannerlist.append(str(banner))
+            print(str(port)+".port => ", banner)
+            s.close()
+            sys.exit(0)
+        except:
+            pass
+else:
+    pass
+
+
+if islemno == "-C":
+    firstport = input("Başlangıç portunu giriniz:", )
+    lastport = input("Bitiş portunu Giriniz:", )
+    target = input("İp Giriniz:", )
+    print("Saldırı yapılan ip:", target)
+    print("-" * 50)
+    for port in range(int(firstport), int(lastport)):
+        try:
+            s = socket.socket()
+            socket.setdefaulttimeout(1)
+            s.connect((target, port))
+            banner = s.recv(1024)
+            bannerlist.append(str(banner))
+            s.close()
+
+            if port == 21:
+                print("[+] 21.Port Açık, Sistem'e FTP Girişi yapılabilir.")
+                print("-" * 50)
+            if port == 22:
+                print("[+] 22.Port Açık, Sistem Linux veya Ağ Cihazı Olabilir.")
+                print("-" * 50)
+            if port == 23:
+                print("[+] 23.Port Açık, Bu Port Dışarıdan Saldırılara Karşı Savunmasızdır.")
+                print("-" * 50)
+            sys.exit(0)
+        except:
+            pass
+else:
+    pass
+
+for i in bannerlist:
+    if "vsFTPd 2.3.4" in i:
+        print("[+] FTP vsFTPd 2.3.4 version açığı ile sistem exploit edilebilir")
+        print("-" * 50)
+
+if islemno == "-O":
+    firstport = input("Başlangıç portunu giriniz:", )
+    lastport = input("Bitiş portunu Giriniz:", )
+    target = input("İp Giriniz:", )
+    print("Saldırı yapılan ip:", target)
+    print("-" * 50)
+    for port in range(int(firstport), int(lastport)):
+        try:
+            s = socket.socket()
+            socket.setdefaulttimeout(1)
+            s.connect((target, port))
+            banner = s.recv(1024)
+            bannerlist.append(str(banner))
+            s.close()
+
+            if port == 22:
+                print("[+] 22.Port Açık, Bu Sistem Yüksek İhtimalle Linux'tur.")
+                print("-" * 50)
+            sys.exit(0)
+        except:
+            pass
+else:
+    pass
+
+if islemno == "-T":
+        firstport = input("Başlangıç portunu giriniz:", )
+        lastport = input("Bitiş portunu Giriniz:", )
+        target = input("İp Giriniz:", )
+        print("Saldırı yapılan ip:", target)
+        print("-" * 50)
+
+        try:
+
+            # portlar arası tarama ipv4 ve tcp
+            for port in range(int(firstport), int(lastport)):
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                socket.setdefaulttimeout(1)
+
+                # dönen sonuca göre açık portları tespit et
+                result = s.connect_ex((target, port))
+                if result == 0:
+                    print("Port {} açıktır".format(port))
+                s.close()
+
+        except KeyboardInterrupt:
+            print("\n Program Sonlandırılıyor !!!!")
+            sys.exit()
+        except socket.gaierror:
+            print("\n Hostname Ulaşılamadı !!!!")
+            sys.exit()
+        except socket.error:
+            print("\ Server Cevap Vermedi !!!!")
+            sys.exit()
+else:
+    pass
+
+if islemno == "-Z":
+    target = input("İp Giriniz:", )
+    print("Saldırı yapılan ip:", target)
+    print("-" * 50)
+    for port in range(int(1), int(1001)):
+        try:
+            s = socket.socket()
+            socket.setdefaulttimeout(1)
+            s.connect((target, port))
+            banner = s.recv(1024)
+            bannerlist.append(str(banner))
+            print(str(port)+".port açık ve banner => ", banner)
+            s.close()
+            sys.exit(0)
+        except:
+            pass
+else:
+    pass
+
+if islemno == "-A":
+    target = input("İp Giriniz:", )
+    print("Saldırı yapılan ip:", target)
+    print("-" * 50)
+    for port in range(int(1), int(65566)):
+        try:
+            s = socket.socket()
+            socket.setdefaulttimeout(1)
+            s.connect((target, port))
+            banner = s.recv(1024)
+            bannerlist.append(str(banner))
+            print(str(port)+".port açık ve banner => ", banner)
+            s.close()
+            sys.exit(0)
+        except:
+            pass
+else:
+    pass
